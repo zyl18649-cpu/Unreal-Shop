@@ -164,6 +164,28 @@
     </div>
   </div>
 
+  <!-- Payment Method Modal -->
+  <div id="payment-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-800 rounded-xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold">Choose Payment Method</h3>
+        <button id="close-payment" class="text-gray-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <button id="cashapp-btn" class="w-full py-4 rounded-lg font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-300 flex items-center justify-center space-x-2">
+          <span>Pay with Cash App</span>
+        </button>
+        <button id="paypal-btn" class="w-full py-4 rounded-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center space-x-2">
+          <span>Pay with PayPal</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast" class="hidden fixed bottom-8 right-8 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4 rounded-lg shadow-2xl shadow-green-500/50 toast">
     <div class="flex items-center space-x-3">
@@ -229,6 +251,21 @@
     });
 
     document.getElementById('checkout-btn').addEventListener('click', function() {
+      document.getElementById('cart-modal').classList.add('hidden');
+      document.getElementById('payment-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('close-payment').addEventListener('click', function() {
+      document.getElementById('payment-modal').classList.add('hidden');
+    });
+
+    document.getElementById('payment-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('cashapp-btn').addEventListener('click', function() {
       let total = 0;
       cartItems.forEach(function(item) {
         total += item.price;
@@ -236,6 +273,16 @@
       
       const cashappLink = 'https://cash.app/$zylerliford/' + total.toFixed(2);
       window.open(cashappLink, '_blank');
+    });
+
+    document.getElementById('paypal-btn').addEventListener('click', function() {
+      let total = 0;
+      cartItems.forEach(function(item) {
+        total += item.price;
+      });
+      
+      const paypalLink = 'https://paypal.me/vexocaster/' + total.toFixed(2);
+      window.open(paypalLink, '_blank');
     });
 
     function updateCartDisplay() {
@@ -282,4 +329,5 @@
     }
   </script>
 </body>
+
 </html>
